@@ -113,29 +113,39 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
-   
-  var resultArray = [array[0]];
 
-   if (arguments.length === 3) {
-    for (var i = 1; i < array.length; i++) {
-      if(iterator(array[i])) {
-        resultArray.push(array[i]);
-      }
-    }
-   } else {
-    for (var i = 1; i < array.length; i++) {
-      var isPresent = false;
-      for (var j = 0; j < resultArray.length; j++) {
-        if (array[i] === resultArray[j]){
-          isPresent = true;
+    var resultArray = [];
+    resultArray[0] = array[0];
+    //if sorted and iterator are passed
+    if (isSorted === true && iterator) {
+      var transformedArray = [];
+      transformedArray[0] = iterator(array[0])
+      for (var l = 1; l < array.length; l++) {
+        if (iterator(array[l]) === transformedArray[l - 1]) {//duplicate
+          break;
+        } else {
+          transformedArray.push(iterator(array[l]));
+          resultArray.push(array[l]);
         }
       }
-      if (isPresent === false) {
-        resultArray.push(array[i]);
-      }
-    }
+      
+    } else {
+        for (var i = 1; i < array.length; i++) {
+          var isPresent = false;
+          for (var j = 0; j < resultArray.length; j++) {
+            if (array[i] === resultArray[j]){
+              isPresent = true;
+            }
+          }
+          if (isPresent === false) {
+            resultArray.push(array[i]);
+          }
+        }
   }
-    return resultArray;
+    return resultArray; 
+
+
+  
   };
 
 
@@ -144,6 +154,11 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var resultArray = [];
+    for (var i = 0; i < collection.length; i++) {
+      resultArray.push(iterator(collection[i]));
+    }
+    return resultArray;
   };
 
   /*
@@ -185,6 +200,20 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    //if accumulator not passed, collection[0] used as accumulator, i = 1
+    //if accumulator passed, use accumulator value and i = 0;
+    //iterate over array and add to accumulator
+    var index = 0;
+    if(accumulator === undefined) {
+      //accumulator not passed
+      accumulator = collection[0];
+      index = 1;
+    }
+    
+    for(index; index < collection.length; index++) {
+      accumulator = iterator(accumulator, collection[index]);
+    }
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
