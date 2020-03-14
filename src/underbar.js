@@ -391,6 +391,22 @@ var truthy = 0;
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    //store arguments and result in array
+
+    var funcObj = {};
+    var result;
+
+    return function() {
+    var key = JSON.stringify(arguments);
+      if (funcObj[key] === undefined) {
+        result = func.apply(this, arguments);
+        funcObj[key] = result;
+      } else {
+        result = funcObj[key];
+      }
+      return result;
+    }
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -400,6 +416,18 @@ var truthy = 0;
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    console.log(arguments.length);
+    console.log('wait', wait);
+    if (arguments.length > 2) {
+      var argArray = [];
+      for (var i = 2; i < arguments.length; i++) {
+        argArray.push(arguments[i]);
+      }
+       setTimeout(func.apply(this, argArray), wait);
+    } else {
+      setTimeout(func, wait);
+    }
+   
   };
 
 
