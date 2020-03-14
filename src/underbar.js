@@ -304,8 +304,6 @@ var truthy = 0;
     } else {
       return false;
     }
-    
-
   };
 
 
@@ -328,11 +326,28 @@ var truthy = 0;
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+   for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+      for (var key in source) {
+        obj[key] = source[key];
+      }
+   }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+      for (var key in source) {
+        if (obj[key] === undefined) {
+          obj[key] = source[key];
+        }
+      }
+   }
+    return obj;
   };
 
 
