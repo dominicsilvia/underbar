@@ -222,13 +222,9 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
-      console.log('collection',collection);
-      console.log('item', item);
-      console.log('target', target);
-      console.log('wasFound', wasFound);
+    var arr = Object.values(collection);
+    return _.reduce(arr, function(wasFound, item) {
       if (wasFound) {
-        //console.log('was found is true!!!');
         return true;
       } 
       return item === target; 
@@ -244,7 +240,6 @@
         return true;
       }
       var truthy = 0;
-
       var reduceIterator;
 
       if (arguments.length === 2) {
@@ -279,6 +274,38 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    //fail by default for empty collection
+    if (collection.length === 0) {
+      return false;
+    }
+
+var truthy = 0;
+      var reduceIterator;
+
+      if (arguments.length === 2) {
+        //callback was passed
+        reduceIterator = function(acc, item) {
+        if (iterator(item)) {
+          truthy++;
+        }
+      };
+    } else {
+        reduceIterator = function(acc, item) {
+          //no callback is provided
+        if (item) {
+          truthy++;
+        }
+      };
+    }
+      _.reduce(collection, reduceIterator, truthy);
+    //if truthy === collection length, all truthy
+    if (truthy === (collection.length) || truthy !== 0) {
+      return true;
+    } else {
+      return false;
+    }
+    
+
   };
 
 
