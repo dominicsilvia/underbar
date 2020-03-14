@@ -155,9 +155,11 @@
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var resultArray = [];
-    for (var i = 0; i < collection.length; i++) {
-      resultArray.push(iterator(collection[i]));
-    }
+
+    _.each(collection, function(item) {
+      resultArray.push(iterator(item));
+    });
+    
     return resultArray;
   };
 
@@ -221,18 +223,57 @@
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item) {
+      console.log('collection',collection);
+      console.log('item', item);
+      console.log('target', target);
+      console.log('wasFound', wasFound);
       if (wasFound) {
+        //console.log('was found is true!!!');
         return true;
-      }
-      return item === target;
+      } 
+      return item === target; 
     }, false);
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
-  };
+      // TIP: Try re-using reduce() here.
+      //if collection is empty
+      if (collection.length === 0) {
+        return true;
+      }
+      var truthy = 0;
+
+      var reduceIterator;
+
+      if (arguments.length === 2) {
+        //callback was passed
+        reduceIterator = function(acc, item) {
+        if (iterator(item)) {
+          truthy++;
+        }
+      };
+    } else {
+        reduceIterator = function(acc, item) {
+          //no callback is provided
+        if (item) {
+          truthy++;
+        }
+      };
+    }
+      _.reduce(collection, reduceIterator, truthy);
+    //if truthy === collection length, all truthy
+    if (truthy === (collection.length)) {
+      return true;
+    } else {
+      return false;
+    }
+    //if truthy === 0, all falsy
+    //if truthy between, mixed = fails
+};
+
+  
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
