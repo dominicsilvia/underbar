@@ -416,8 +416,8 @@ var truthy = 0;
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    console.log(arguments.length);
-    console.log('wait', wait);
+    //console.log(arguments.length);
+    //console.log('wait', wait);
     if (arguments.length > 2) {
       var argArray = [];
       for (var i = 2; i < arguments.length; i++) {
@@ -442,6 +442,18 @@ var truthy = 0;
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var shuffledArray = array.slice();
+    var min = 1; 
+    var max = shuffledArray.length;
+    var origValue;
+    var newPosition;  
+    for (var i = 1; i <= max; i++) {
+      newPosition = Math.floor(Math.random() * (max - min) + min); 
+      origValue = shuffledArray[i - 1];
+      shuffledArray[i -1] = shuffledArray[newPosition];
+      shuffledArray[newPosition] = origValue;
+    }
+    return shuffledArray;
   };
 
 
@@ -456,6 +468,19 @@ var truthy = 0;
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+      var resultArray = [];
+      if (typeof(functionOrKey) === "function") {
+        for (var i = 0; i < collection.length; i++) {
+        resultArray.push(functionOrKey.call(collection[i]));
+        }
+      } else {
+        for (var i = 0; i < collection.length; i++) {
+          resultArray.push(collection[i][functionOrKey]());
+        }
+      }
+      
+      return resultArray;
+
   };
 
   // Sort the object's values by a criterion produced by an iterator.
