@@ -82,7 +82,7 @@
   _.filter = function(collection, test) {
     var resultArray = [];
     
-    /*
+    /** OLD FUNCTION
     for (var i = 0; i < collection.length; i++) {
       if (test(collection[i]) === true) {
         resultArray.push(collection[i]);
@@ -104,7 +104,7 @@
     // copying code in and modifying it
     //var resultArray = [];
    
-    /*
+    /** OLD FUNCTION
     var filteredArray = _.filter(collection, test);
     for (var i = 0; i < collection.length; i++) {
       var isMatch = false;
@@ -130,6 +130,17 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
 
+    var iterator = iterator || _.identity;
+
+    var container = {};
+    _.each(array, function(item) {
+      if (container[iterator(item)] === undefined) {
+         container[iterator(item)] = item;
+      }
+    })
+    return Object.values(container);
+
+/** OLD FUNCTION
     var resultArray = [];
     resultArray[0] = array[0];
     //if sorted and iterator are passed
@@ -159,9 +170,7 @@
         }
   }
     return resultArray; 
-
-
-  
+*/
   };
 
 
