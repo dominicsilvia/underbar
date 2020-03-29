@@ -554,7 +554,15 @@ var truthy = 0;
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-      var resultArray = [];
+     
+     var resultArray = [];
+     var method = typeof(functionOrKey) === "function" ? functionOrKey : collection[0][functionOrKey];
+
+     _.each(collection, function(item) {
+        resultArray.push(method.apply(item));
+     });
+
+     /* OLD FUNCTION
       if (typeof(functionOrKey) === "function") {
         for (var i = 0; i < collection.length; i++) {
         resultArray.push(functionOrKey.call(collection[i]));
@@ -564,6 +572,7 @@ var truthy = 0;
           resultArray.push(collection[i][functionOrKey]());
         }
       }
+      */
       return resultArray;
   };
 
