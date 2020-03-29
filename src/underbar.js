@@ -415,6 +415,15 @@ var truthy = 0;
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+    _.each(arguments, function(arg) {
+          for (var key in arg) {
+            if (obj[key] === undefined) {
+              obj[key] = arg[key];
+            }
+          }
+        });
+    /* OLD FUNCTION
     for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];
       for (var key in source) {
@@ -423,6 +432,7 @@ var truthy = 0;
         }
       }
    }
+   */ 
     return obj;
   };
 
