@@ -230,6 +230,22 @@
     //if accumulator not passed, collection[0] used as accumulator, i = 1
     //if accumulator passed, use accumulator value and i = 0;
     //iterate over array and add to accumulator
+
+    var accPassed = accumulator === undefined ? false : true;
+
+    _.each(collection, function(item) {
+       if (accPassed === false) {
+        accumulator = item;
+        accPassed = true;
+       } else {
+        accumulator = iterator(accumulator, item);
+       }
+       
+    } )
+    
+     return accumulator;
+
+    /* OLD FUNCTION
     var index = 0;
     if(accumulator === undefined) {
       //accumulator not passed
@@ -240,7 +256,8 @@
     for(index; index < collection.length; index++) {
       accumulator = iterator(accumulator, collection[index]);
     }
-    return accumulator;
+   
+    */
   };
 
   // Determine if the array or object contains a given value (using `===`).
