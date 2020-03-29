@@ -281,6 +281,18 @@
       if (collection.length === 0) {
         return true;
       }
+
+      var iterator = iterator || _.identity;
+
+      return _.reduce(collection, function(allTrue, item) {
+          if (allTrue) {
+            return !!iterator(item);
+          } else {
+            return false;
+          }
+      }, true);
+
+      /*** OLD FUNCTION
       var truthy = 0;
       var reduceIterator;
 
@@ -306,8 +318,7 @@
     } else {
       return false;
     }
-    //if truthy === 0, all falsy
-    //if truthy between, mixed = fails
+   */
 };
 
   
