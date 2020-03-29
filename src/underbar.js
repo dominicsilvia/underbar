@@ -120,7 +120,9 @@
     }
     */
 
-    return _.filter(collection, test);
+    return _.filter(collection, function(item) {
+      return !test(item);
+    });
 
     //return resultArray;
   };
