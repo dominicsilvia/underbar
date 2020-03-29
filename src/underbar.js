@@ -278,13 +278,12 @@
   _.every = function(collection, iterator) {
       // TIP: Try re-using reduce() here.
       //if collection is empty
-      if (collection.length === 0) {
-        return true;
-      }
-
+      // if (collection.length === 0) {
+      //   return true;
+      // }
       var iterator = iterator || _.identity;
 
-      return _.reduce(collection, function(allTrue, item) {
+      return collection.length === 0 ? true : _.reduce(collection, function(allTrue, item) {
           if (allTrue) {
             return !!iterator(item);
           } else {
@@ -328,6 +327,17 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
     //fail by default for empty collection
+    var iterator = iterator || _.identity;
+
+      return collection.length === 0 ? false : _.reduce(collection, function(someTrue, item) {
+          if (someTrue) {
+            return true;
+          } else {
+            return !!iterator(item);
+          }
+      }, false);
+
+    /** OLD FUNCTION
     if (collection.length === 0) {
       return false;
     }
@@ -357,6 +367,8 @@ var truthy = 0;
     } else {
       return false;
     }
+    */ 
+
   };
 
 
