@@ -38,10 +38,10 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
-    if (n > array.length) {
+   /* if (n > array.length) {
       return array;
-    }
-    return n === undefined ? array[array.length -1] : array.slice(array.length - n);
+    } */
+    return n === undefined ? array[array.length -1] : array.slice(Math.max(0, array.length - n));
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -82,11 +82,19 @@
   _.filter = function(collection, test) {
     var resultArray = [];
     
+    /*
     for (var i = 0; i < collection.length; i++) {
       if (test(collection[i]) === true) {
         resultArray.push(collection[i]);
       }
     }
+    */
+    _.each(collection, function(item) {
+      if (test(item)) {
+        resultArray.push(item);
+      }
+    });
+
     return resultArray;
   };
 
@@ -94,7 +102,9 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    var resultArray = [];
+    //var resultArray = [];
+   
+    /*
     var filteredArray = _.filter(collection, test);
     for (var i = 0; i < collection.length; i++) {
       var isMatch = false;
@@ -108,7 +118,11 @@
         resultArray.push(collection[i]);
       }
     }
-    return resultArray;
+    */
+
+    return _.filter(collection, test);
+
+    //return resultArray;
   };
 
   // Produce a duplicate-free version of the array.
@@ -478,9 +492,7 @@ var truthy = 0;
           resultArray.push(collection[i][functionOrKey]());
         }
       }
-      
       return resultArray;
-
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -488,6 +500,23 @@ var truthy = 0;
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    /*
+    console.log('passed iterator', iterator);
+    var sortedCollection = collection.sort(function(a, b) {
+      console.log(a[iterator]);
+      console.log(b[iterator]);
+        if (a.iterator < b.iterator) {
+          return -1;
+        } else if (a.iterator > b.iterator) {
+          return 1;
+        } else {
+          return 0;
+        }
+
+    });
+    console.log('sortedCollection', sortedCollection);
+    return sortedCollection;
+    */
   };
 
   // Zip together two or more arrays with elements of the same index
