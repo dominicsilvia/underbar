@@ -392,6 +392,15 @@ var truthy = 0;
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
 
+    _.each(arguments, function(arg) {
+      for (var key in arg) {
+        obj[key] = arg[key];
+      }
+    });
+
+    return obj;
+
+    /* OLD FUNCTION
    for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];
       for (var key in source) {
@@ -399,6 +408,8 @@ var truthy = 0;
       }
    }
     return obj;
+  */
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
